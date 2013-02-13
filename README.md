@@ -1,12 +1,13 @@
 # XPDF Puppet Module for Boxen
 
-Requires the following boxen modules:
-
-* `boxen`
-* `homebrew`
-
 ## Usage
 
 ```puppet
 include xpdf
 ```
+
+## Required Puppet Modules
+
+* `boxen`
+* `homebrew`
+* `stdlib`
