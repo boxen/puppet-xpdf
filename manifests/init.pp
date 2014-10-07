@@ -11,6 +11,6 @@ class xpdf {
   }
 
   package { 'boxen/brews/xpdf':
-    ensure => '3.03-boxen1'
+    ensure => '3.04-boxen1'
   }
 }
