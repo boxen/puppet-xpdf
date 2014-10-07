@@ -3,7 +3,7 @@ require 'formula'
 class Xpdf < Formula
   homepage 'http://www.foolabs.com/xpdf/'
   url 'ftp://ftp.foolabs.com/pub/xpdf/xpdf-3.04.tar.gz'
-  sha1 'b9b1dbb0335742a09d0442c60fd02f4f934618bd '
+  sha1 'b9b1dbb0335742a09d0442c60fd02f4f934618bd'
 
   version '3.04-boxen1'
 
