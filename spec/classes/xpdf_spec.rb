@@ -15,7 +15,7 @@ describe 'xpdf' do
       with_before('Package[boxen/brews/xpdf]')
 
     should contain_package('boxen/brews/xpdf').with({
-      :ensure => '3.03-boxen1'
+      :ensure => '3.04-boxen1'
     })
   end
 end

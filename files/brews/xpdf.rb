@@ -2,37 +2,32 @@ require 'formula'
 
 class Xpdf < Formula
   homepage 'http://www.foolabs.com/xpdf/'
-  url 'ftp://ftp.foolabs.com/pub/xpdf/xpdf-3.03.tar.gz'
-  sha1 '499423e8a795e0efd76ca798239eb4d0d52fe248'
+  url 'ftp://ftp.foolabs.com/pub/xpdf/xpdf-3.04.tar.gz'
+  sha1 'b9b1dbb0335742a09d0442c60fd02f4f934618bd '
 
-  version '3.03-boxen1'
+  version '3.04-boxen1'
 
-  depends_on 'lesstif'
+  depends_on "lesstif"
+  depends_on "freetype"
   depends_on :x11
 
-  # see: http://gnats.netbsd.org/45562
-  def patches; DATA; end
-
   def install
-    ENV.append_to_cflags "-I#{MacOS.x11_prefix}/include -I#{MacOS.x11_prefix}/include/freetype2 -I#{HOMEBREW_PREFIX}/include"
-
-    system "./configure", "--prefix=#{prefix}", "--mandir=#{man}"
+    freetype = Formula["freetype"]
+    lesstif = Formula["lesstif"]
+    system "./configure", "--prefix=#{prefix}",
+                          "--with-freetype2-library=#{freetype.opt_lib}",
+                          "--with-freetype2-includes=#{freetype.opt_include}/freetype2",
+                          "--with-Xm-library=#{lesstif.opt_lib}",
+                          "--with-Xm-includes=#{lesstif.opt_include}",
+                          "--with-Xpm-library=#{MacOS::X11.lib}",
+                          "--with-Xpm-includes=#{MacOS::X11.include}",
+                          "--with-Xext-library=#{MacOS::X11.lib}",
+                          "--with-Xext-includes=#{MacOS::X11.include}",
+                          "--with-Xp-library=#{MacOS::X11.lib}",
+                          "--with-Xp-includes=#{MacOS::X11.include}",
+                          "--with-Xt-library=#{MacOS::X11.lib}",
+                          "--with-Xt-includes=#{MacOS::X11.include}"
     system "make"
-    system "make install"
+    system "make", "install"
   end
 end
-
-__END__
-diff --git a/xpdf/XPDFViewer.cc b/xpdf/XPDFViewer.cc
-index 2de349d..e6ef7fa 100644
---- a/xpdf/XPDFViewer.cc
-+++ b/xpdf/XPDFViewer.cc
-@@ -1803,7 +1803,7 @@ void XPDFViewer::initToolbar(Widget parent) {
-   menuPane = XmCreatePulldownMenu(toolBar, "zoomMenuPane", args, n);
-   for (i = 0; i < nZoomMenuItems; ++i) {
-     n = 0;
--    s = XmStringCreateLocalized(zoomMenuInfo[i].label);
-+    s = XmStringCreateLocalized((char *)zoomMenuInfo[i].label);
-     XtSetArg(args[n], XmNlabelString, s); ++n;
-     XtSetArg(args[n], XmNuserData, (XtPointer)i); ++n;
-     sprintf(buf, "zoom%d", i);
